@@ -1,0 +1,18 @@
+import { Stack } from "expo-router";
+
+import { colors } from "@/shared/theme";
+
+export default function AuthLayout() {
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.ink },
+      }}
+    >
+      <Stack.Screen name="landing" />
+      <Stack.Screen name="login" />
+      <Stack.Screen name="register" />
+    </Stack>
+  );
+}
