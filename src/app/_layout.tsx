@@ -6,6 +6,7 @@ import Toast from "react-native-toast-message";
 
 import { useAuthStore } from "@/features/auth";
 import { colors, paperTheme } from "@/shared/theme";
+import { toastConfig } from "@/shared/ui";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,7 +45,7 @@ export default function RootLayout() {
           <Stack.Screen name="(auth)" />
         </Stack.Protected>
       </Stack>
-      <Toast topOffset={60} />
+      <Toast config={toastConfig} topOffset={60} />
     </PaperProvider>
   );
 }

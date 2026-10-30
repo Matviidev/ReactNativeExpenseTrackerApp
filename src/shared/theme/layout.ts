@@ -23,4 +23,13 @@ export const shadow = {
     shadowRadius: 12,
     elevation: 2,
   },
+  raised: {
+    shadowColor: "#0F172A",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.12,
+    shadowRadius: 24,
+    elevation: 6,
+  },
 } as const;
+
+export const MAX_CONTENT_WIDTH = 560;

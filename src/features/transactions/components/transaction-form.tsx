@@ -10,12 +10,13 @@ import { amountRules, required } from "@/shared/lib/validation";
 import {
   AppButton,
   FormDateField,
+  FormSegmentedField,
   FormSelectField,
   FormTextField,
 } from "@/shared/ui";
 import { spacing } from "@/shared/theme";
 
-import { CATEGORIES, TRANSACTION_TYPES } from "../constants";
+import { CATEGORIES, TYPE_OPTIONS } from "../constants";
 import { TransactionFormValues } from "../types";
 
 interface TransactionFormProps {
@@ -44,6 +45,12 @@ export const TransactionForm = ({
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
+        <FormSegmentedField
+          control={control}
+          name="type"
+          options={TYPE_OPTIONS}
+          rules={required("Type")}
+        />
         <FormTextField
           control={control}
           name="name"
@@ -58,14 +65,6 @@ export const TransactionForm = ({
           icon="currency-usd"
           rules={amountRules}
           keyboardType="decimal-pad"
-        />
-        <FormSelectField
-          control={control}
-          name="type"
-          label="Type"
-          icon="swap-vertical"
-          options={TRANSACTION_TYPES}
-          rules={required("Type")}
         />
         <FormSelectField
           control={control}

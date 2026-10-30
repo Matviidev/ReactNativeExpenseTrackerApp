@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, spacing } from "@/shared/theme";
 
-const TAB_BAR_HEIGHT = 64;
+const TAB_BAR_HEIGHT = 68;
 
 const tabIcon = (active: string, inactive: string) =>
   function TabIcon({ focused, size }: { focused: boolean; size: number }) {
@@ -29,8 +29,8 @@ export default function TabsLayout() {
         tabBarLabelStyle: { fontSize: 12, fontWeight: "600" },
         tabBarStyle: {
           height: TAB_BAR_HEIGHT + bottom,
-          paddingTop: spacing.sm,
-          paddingBottom: bottom + spacing.sm,
+          paddingTop: spacing.xs,
+          paddingBottom: bottom + spacing.md,
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
         },

@@ -1,4 +1,5 @@
 import { colors } from "@/shared/theme";
+import type { SegmentOption } from "@/shared/ui";
 
 import { SortOption, TransactionType, TypeFilter } from "./types";
 
@@ -45,3 +46,14 @@ export const TYPE_COLORS: Record<
   income: { color: colors.income, background: colors.incomeSoft },
   expense: { color: colors.expense, background: colors.expenseSoft },
 };
+
+export const TYPE_ICONS: Record<TransactionType, string> = {
+  income: "arrow-down-circle",
+  expense: "arrow-up-circle",
+};
+
+export const TYPE_OPTIONS: SegmentOption[] = TRANSACTION_TYPES.map((type) => ({
+  ...type,
+  icon: TYPE_ICONS[type.value],
+  color: TYPE_COLORS[type.value].color,
+}));

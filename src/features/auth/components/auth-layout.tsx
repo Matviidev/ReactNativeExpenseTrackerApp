@@ -54,8 +54,12 @@ export const AuthLayout = ({
             style={styles.back}
             accessibilityLabel="Go back"
           />
+          <View style={styles.glow} />
           <View style={styles.hero}>
             <BrandMark size={64} />
+            <AppText variant="heading" color={colors.onInk}>
+              FinTrack
+            </AppText>
           </View>
 
           <View style={styles.sheet}>
@@ -91,8 +95,18 @@ const styles = StyleSheet.create({
   back: {
     marginLeft: spacing.sm,
   },
+  glow: {
+    position: "absolute",
+    width: 280,
+    height: 280,
+    top: -140,
+    right: -100,
+    borderRadius: radius.pill,
+    backgroundColor: colors.primaryGlow,
+  },
   hero: {
     alignItems: "center",
+    gap: spacing.md,
     paddingBottom: spacing.xxl * 1.5,
   },
   sheet: {

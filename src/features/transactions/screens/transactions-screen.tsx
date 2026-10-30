@@ -1,15 +1,21 @@
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { SectionList, StyleSheet, View } from "react-native";
 
-import { EmptyState, LoadingState, Screen, ScreenHeader } from "@/shared/ui";
-import { spacing } from "@/shared/theme";
+import {
+  AppText,
+  EmptyState,
+  LoadingState,
+  Screen,
+  ScreenHeader,
+} from "@/shared/ui";
+import { colors, spacing } from "@/shared/theme";
 
 import { TransactionItem } from "../components/transaction-item";
 import { TransactionsFilters } from "../components/transactions-filters";
 import { useTransactions } from "../hooks/use-transactions";
 import { SortOption, TypeFilter } from "../types";
-import { filterAndSort } from "../utils";
+import { filterAndSort, groupByDay } from "../utils";
 
 export const TransactionsScreen = () => {
   const router = useRouter();
@@ -17,8 +23,8 @@ export const TransactionsScreen = () => {
   const [type, setType] = useState<TypeFilter>("all");
   const [sort, setSort] = useState<SortOption>("date-desc");
 
-  const transactions = useMemo(
-    () => filterAndSort(data ?? [], type, sort),
+  const sections = useMemo(
+    () => groupByDay(filterAndSort(data ?? [], type, sort), sort),
     [data, type, sort],
   );
 
@@ -36,11 +42,23 @@ export const TransactionsScreen = () => {
       );
     }
     return (
-      <FlatList
-        data={transactions}
+      <SectionList
+        sections={sections}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.list}
+        stickySectionHeadersEnabled={false}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+        renderSectionHeader={({ section }) =>
+          section.title ? (
+            <AppText
+              variant="caption"
+              color={colors.textMuted}
+              style={styles.sectionTitle}
+            >
+              {section.title.toUpperCase()}
+            </AppText>
+          ) : null
+        }
         renderItem={({ item }) => (
           <TransactionItem
             transaction={item}
@@ -75,9 +93,14 @@ const styles = StyleSheet.create({
   list: {
     flexGrow: 1,
     padding: spacing.lg,
-    paddingTop: spacing.sm,
+    paddingTop: 0,
   },
   separator: {
     height: spacing.sm,
+  },
+  sectionTitle: {
+    letterSpacing: 0.6,
+    marginTop: spacing.md,
+    marginBottom: spacing.sm,
   },
 });

@@ -1,3 +1,5 @@
+import { formatDayLabel } from "@/shared/lib/format";
+
 import {
   SortOption,
   Transaction,
@@ -27,6 +29,32 @@ export const filterAndSort = (
     .filter((transaction) => type === "all" || transaction.type === type)
     .sort(comparators[sort]);
 
+export interface TransactionSection {
+  title: string | null;
+  data: Transaction[];
+}
+
+export const groupByDay = (
+  transactions: Transaction[],
+  sort: SortOption,
+): TransactionSection[] => {
+  if (!sort.startsWith("date")) {
+    return transactions.length ? [{ title: null, data: transactions }] : [];
+  }
+
+  return transactions.reduce<TransactionSection[]>((sections, transaction) => {
+    const title = formatDayLabel(transaction.date);
+    const last = sections[sections.length - 1];
+
+    if (last?.title === title) {
+      last.data.push(transaction);
+    } else {
+      sections.push({ title, data: [transaction] });
+    }
+    return sections;
+  }, []);
+};
+
 export const summarize = (
   transactions: Pick<Transaction, "amount" | "type">[],
 ): TransactionsSummary => {
@@ -47,7 +75,7 @@ export const toFormValues = (
   amount: transaction?.amount.toString() ?? "",
   description: transaction?.description ?? "",
   date: transaction?.date ?? "",
-  type: transaction?.type ?? "",
+  type: transaction?.type ?? "expense",
   category: transaction?.category ?? "",
 });
 
